@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài thực hành 1</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+        input {
+            padding: 10px;
+            width: 250px;
+        }
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
+        #danhsach {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .sanpham {
+            width: 180px;
+            margin: 10px;
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+        #thongbao {
+            color: red;
+        }
+        .giaithich {
+            width: 80%;
+            margin: 30px auto;
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>DANH SÁCH SẢN PHẨM</h1>
+    <p>Lê Nguyễn Duy - 231A010598</p>
+    <input type="text" id="timkiem" placeholder="Nhập tên sản phẩm">
+    <button onclick="timSanPham()">Tìm kiếm</button>
+    <p id="thongbao"></p>
+    <div id="danhsach"></div>
+    <div class="giaithich">
+        <h2>Giải thích logic</h2>
+        <p>
+            Chương trình lưu danh sách sản phẩm trong mảng JavaScript.
+            Khi người dùng nhập từ khóa, chương trình dùng trim() để bỏ khoảng trắng,
+            toLowerCase() để tìm kiếm không phân biệt chữ hoa và chữ thường.
+            Sau đó dùng filter() và includes() để lọc sản phẩm.
+            Dữ liệu được hiển thị bằng textContent để an toàn hơn.
+            Flexbox giúp danh sách sản phẩm hiển thị phù hợp trên nhiều màn hình.
+        </p>
+    </div>
+    <a href="index.html">Quay về trang chủ</a>
+    <script>
+        const sanPhams = [
+            "Áo thun",
+            "Quần jean",
+            "Giày thể thao",
+            "Balo",
+            "Mũ"
+        ];
+        function hienThi(danhSach) {
+            const khung = document.getElementById("danhsach");
+            khung.innerHTML = "";
+            danhSach.forEach(function(ten) {
+                const div = document.createElement("div");
+                div.className = "sanpham";
+                div.textContent = ten;
+                khung.appendChild(div);
+            });
+        }
+        function timSanPham() {
+            const tuKhoa = document.getElementById("timkiem")
+                .value.trim().toLowerCase();
+            const ketQua = sanPhams.filter(function(ten) {
+                return ten.toLowerCase().includes(tuKhoa);
+            });
+            if (ketQua.length === 0) {
+                document.getElementById("thongbao").textContent =
+                    "Không tìm thấy sản phẩm";
+            } else {
+                document.getElementById("thongbao").textContent = "";
+            }
+            hienThi(ketQua);
+        }
+        hienThi(sanPhams);
+    </script>
+</body>
+</html>

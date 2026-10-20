@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài thực hành 2</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .form {
+            width: 350px;
+            max-width: 90%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin: 8px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        #thongbao {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .giaithich {
+            width: 80%;
+            margin: 30px auto;
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>FORM ĐĂNG KÝ</h1>
+    <p>Lê Nguyễn Duy - 231A010598</p>
+    <div class="form">
+        <form id="formDangKy">
+            <input
+                type="text"
+                id="ten"
+                placeholder="Nhập họ tên"
+            >
+            <br>
+            <input
+                type="email"
+                id="email"
+                placeholder="Nhập email"
+            >
+            <br>
+            <input
+                type="password"
+                id="matkhau"
+                placeholder="Nhập mật khẩu"
+            >
+            <br><br>
+            <label>
+                <input type="checkbox" id="dongy">
+                Đồng ý điều khoản
+            </label>
+            <br>
+            <button type="submit">Đăng ký</button>
+        </form>
+        <p id="thongbao"></p>
+    </div>
+    <div class="giaithich">
+        <h2>Giải thích logic</h2>
+        <p>
+            Chương trình bắt sự kiện submit của form và kiểm tra các dữ liệu
+            người dùng nhập. Email được kiểm tra đúng định dạng và mật khẩu
+            phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường và số.
+            Người dùng cũng phải đồng ý điều khoản mới đăng ký được.
+            Khi dữ liệu hợp lệ, tên và email được lưu vào LocalStorage.
+            Không lưu mật khẩu vào LocalStorage vì dữ liệu này có thể
+            được xem trên trình duyệt.
+        </p>
+    </div>
+    <a href="index.html">Quay về trang chủ</a>
+    <script>
+        document.getElementById("formDangKy")
+            .addEventListener("submit", function(event) {
+                event.preventDefault();
+                const ten =
+                    document.getElementById("ten").value.trim();
+                const email =
+                    document.getElementById("email").value.trim();
+                const matkhau =
+                    document.getElementById("matkhau").value;
+                const dongy =
+                    document.getElementById("dongy").checked;
+                const thongbao =
+                    document.getElementById("thongbao");
+                const emailHopLe =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                const matKhauHopLe =
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+                    .test(matkhau)
+                if (ten === "") {
+                    thongbao.textContent =
+                        "Vui lòng nhập họ tên";
+                    thongbao.style.color = "red";
+                    return;
+                }
+                if (!emailHopLe) {
+                    thongbao.textContent =
+                        "Email không hợp lệ";
+                    thongbao.style.color = "red";
+                    return;
+                }
+                if (!matKhauHopLe) {
+                    thongbao.textContent =
+                        "Mật khẩu phải có ít nhất 8 ký tự, có chữ hoa, chữ thường và số";
+                    thongbao.style.color = "red";
+                    return;
+                }
+                if (!dongy) {
+                    thongbao.textContent =
+                        "Bạn phải đồng ý điều khoản";
+                    thongbao.style.color = "red";
+                    return;
+                }
+                const nguoiDung = {
+                    ten: ten,
+                    email: email
+                };
+                localStorage.setItem(
+                    "nguoiDung",
+                    JSON.stringify(nguoiDung)
+                );
+                thongbao.textContent =
+                    "Đăng ký thành công";
+                thongbao.style.color = "green";
+            });
+    </script>
+</body>
+</html>

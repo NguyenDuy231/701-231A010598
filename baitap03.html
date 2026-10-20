@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài thực hành 3</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+        .khung {
+            width: 350px;
+            max-width: 90%;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+        #dongho {
+            font-size: 60px;
+            font-weight: bold;
+            margin: 20px;
+        }
+        .saphetgio {
+            color: red;
+            animation: nhapnhay 1s infinite;
+        }
+        @keyframes nhapnhay {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        .giaithich {
+            width: 80%;
+            margin: 30px auto;
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+        /* Modal */
+        #modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-noidung {
+            background-color: white;
+            width: 300px;
+            max-width: 80%;
+            margin: 200px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>ĐỒNG HỒ ĐẾM NGƯỢC</h1>
+    <p>Lê Nguyễn Duy - 231A010598</p>
+    <div class="khung">
+        <h2>Thời gian còn lại</h2>
+        <div id="dongho">
+            10:00
+        </div>
+    </div>
+    <div class="giaithich">
+        <h2>Giải thích logic</h2>
+        <p>
+            Đồng hồ bắt đầu từ 10 phút và sử dụng setInterval()
+            để giảm thời gian sau mỗi giây. Số phút và giây được
+            chuyển sang dạng MM:SS để hiển thị. Khi thời gian còn
+            dưới 1 phút, CSS animation làm đồng hồ nhấp nháy để
+            cảnh báo. Khi hết thời gian, clearInterval() được sử
+            dụng để dừng bộ đếm, tránh interval tiếp tục chạy gây
+            lãng phí bộ nhớ. Khi deploy lên hosting, nếu cần thời
+            gian chính xác hơn có thể sử dụng thời gian từ server.
+        </p>
+    </div>
+    <a href="index.html">Quay về trang chủ</a>
+    <!-- Modal hết giờ -->
+    <div id="modal">
+        <div class="modal-noidung">
+            <h2>Hết thời gian!</h2>
+            <p>Thời gian làm bài đã kết thúc.</p>
+            <button onclick="dongModal()">
+                Đóng
+            </button>
+        </div>
+    </div>
+    <script>
+        let thoiGian = 10 * 60;
+        const dongho =
+            document.getElementById("dongho");
+        const demNguoc = setInterval(function() {
+            thoiGian--;
+            let phut = Math.floor(thoiGian / 60);
+            let giay = thoiGian % 60;
+            if (phut < 10) {
+                phut = "0" + phut;
+            }
+            if (giay < 10) {
+                giay = "0" + giay;
+            }
+            dongho.textContent =
+                phut + ":" + giay;
+            if (thoiGian < 60) {
+                dongho.classList.add("saphetgio");
+            }
+            if (thoiGian <= 0) {
+                clearInterval(demNguoc);
+                dongho.textContent = "00:00";
+                document.getElementById("modal")
+                    .style.display = "block";
+            }
+        }, 1000);
+        function dongModal() {
+            document.getElementById("modal")
+                .style.display = "none";
+        }
+    </script>
+</body>
+</html>
